@@ -1,0 +1,26 @@
+# 添加到服务器根目录的 .htaccess
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # 允许跨域请求
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+    
+    # 确保 PHP 文件被正确处理
+    AddType application/x-httpd-php .php
+    
+    # 如果文件存在则直接访问
+    RewriteCond %{REQUEST_FILENAME} -f
+    RewriteRule ^ - [L]
+</IfModule>
+
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+    
+    # 处理 OPTIONS 预检请求
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule> 
